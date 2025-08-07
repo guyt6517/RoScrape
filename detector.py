@@ -1,5 +1,3 @@
-# Generated with CHATGPT
-
 import torch
 import open_clip
 from PIL import Image
@@ -116,7 +114,7 @@ def analyze_text(image_path):
 
     return flagged, morse_msgs, rot_msgs, all_text
 
-def hybrid_analysis(image_path, unsafe_threshold=70, flagged_word_penalty=15):
+def hybrid_analysis(image_path, unsafe_threshold=70, flagged_word_penalty=15, username=None, user_id=None):
     nsfw_score = analyze_visual(image_path)
     flagged_words, morse_msgs, rot_msgs, full_text = analyze_text(image_path)
 
@@ -142,6 +140,8 @@ def hybrid_analysis(image_path, unsafe_threshold=70, flagged_word_penalty=15):
 
     return {
         "image_path": image_path,
+        "username": username,
+        "user_id": user_id,
         "unsafe_score": unsafe_score,
         "is_safe": is_safe,
         "nsfw_score": nsfw_score,
