@@ -1,4 +1,3 @@
-# main.py
 import os
 import time
 from scraper import load_cookies, scrape_catalog
@@ -64,20 +63,15 @@ def main():
             result = hybrid_analysis(image_path, unsafe_threshold=60, username=username, user_id=user_id)
             print(result["summary"])
 
-            # Your custom logic here with result
+            # Send if thresholds are met
             if result["unsafe_score"] >= 40:
                 send(result)
             elif result["unsafe_score"] <= 39:
                 if result["nsfw_score"] >= 21:
                     send(result)
-                else:
-                    continue
-            else:
-                continue
 
         print("Batch done. Restarting scrape...")
-        time.sleep(10)  # wait 10 seconds before next batch to be polite
-
+        time.sleep(10)  # be polite with delay
 
 if __name__ == "__main__":
     main()
