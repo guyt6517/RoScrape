@@ -7,3 +7,4 @@ easyocr
 requests
 beautifulsoup4
 flask
+gunicorn
