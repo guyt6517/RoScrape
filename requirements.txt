@@ -1,6 +1,9 @@
 nsfw-detector
-open_clip_torch 
-Pillow 
-torch 
-torchvision 
+open_clip_torch
+Pillow
+torch
+torchvision
 easyocr
+requests
+beautifulsoup4
+flask
