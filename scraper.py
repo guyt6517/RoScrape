@@ -1,3 +1,4 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -8,17 +9,29 @@ KEYWORDS = [
     "fmby", "fxmboy", "fxmby", "fxbxy", "studio"
 ]
 
-def load_cookies(file_path="cookies.txt"):
+def parse_netscape_cookies(cookie_str):
+    """
+    Parse Netscape formatted cookies from a string into a dict suitable for requests.
+    """
     cookies = {}
-    with open(file_path, "r") as f:
-        for line in f:
-            if line.startswith("#") or not line.strip():
-                continue
-            parts = line.strip().split("\t")
-            if len(parts) == 7:
-                domain, flag, path, secure, expiration, name, value = parts
-                cookies[name] = value
+    lines = cookie_str.strip().splitlines()
+    for line in lines:
+        if line.startswith("#") or not line.strip():
+            continue
+        parts = line.strip().split("\t")
+        if len(parts) == 7:
+            domain, flag, path, secure, expiration, name, value = parts
+            cookies[name] = value
     return cookies
+
+def load_cookies():
+    """
+    Load cookies from the environment variable ROBLOX_COOKIES.
+    """
+    cookie_data = os.getenv("ROBLOX_COOKIES")
+    if not cookie_data:
+        raise ValueError("Environment variable ROBLOX_COOKIES not set or empty.")
+    return parse_netscape_cookies(cookie_data)
 
 def scrape_clothing(cookies, max_items=5):
     url = "https://www.roblox.com/catalog"
