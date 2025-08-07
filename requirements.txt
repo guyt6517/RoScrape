@@ -1,4 +1,3 @@
-nsfw-detector
 open_clip_torch
 Pillow
 torch
