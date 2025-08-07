@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import random
-import time
 
 KEYWORDS = [
     "erp", "hug me", "snowbunny", "daddy", "femboy", "add me", "condo", "roleplay",
@@ -41,18 +40,14 @@ def scrape_clothing(cookies, max_items=5):
     return results
 
 def scrape_users(cookies, max_items=5):
-    # Scrapes user avatars from Roblox users search page (simplified)
     url = "https://www.roblox.com/users/search?keyword=avatar"
     r = requests.get(url, cookies=cookies)
     soup = BeautifulSoup(r.text, "html.parser")
 
     results = []
-    # This example assumes user entries in page contain profile links and avatar images:
-    # The exact selectors may require updates if Roblox changes page structure
     for user_link in soup.select("a[href^='/users/']"):
         href = user_link.get("href")
         username = user_link.text.strip()
-        # Extract userID from href, e.g. /users/12345678/profile
         user_id = None
         parts = href.strip("/").split("/")
         if len(parts) >= 2 and parts[0] == "users":
@@ -61,7 +56,6 @@ def scrape_users(cookies, max_items=5):
             except:
                 user_id = None
 
-        # Find avatar img inside user link
         img = user_link.find("img")
         img_url = img.get("src") if img else None
 
@@ -78,7 +72,6 @@ def scrape_users(cookies, max_items=5):
     return results
 
 def scrape_catalog(cookies, max_items=5):
-    # Randomly pick clothing or user scraping each call
     target = random.choice(["Clothing", "Users"])
 
     if target == "Clothing":
